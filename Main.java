@@ -23,24 +23,8 @@ public class Main {
             return "Product ID\tProduct Name\tProduct Price\n"+ proId + "\t\t\t"+ proName + "\t\t\t" + proPrice;
         }
 
-        public String getProId() {
-            return proId;
-        }
-
-        public void setProId(String proId) {
-            this.proId = proId;
-        }
-
-        public void setProPrice(double proPrice) {
-            this.proPrice = proPrice;
-        }
-
         public String getProName() {
             return proName;
-        }
-
-        public void setProName(String proName) {
-            this.proName = proName;
         }
 
         public double getProPrice() {
@@ -77,72 +61,18 @@ public class Main {
                     '}';
         }
 
-        public String getCusId() {
-            return cusId;
-        }
-
-        public void setCusId(String cusId) {
-            this.cusId = cusId;
-        }
-
-        public String getOrId() {
-            return orId;
-        }
-
-        public void setOrId(String orId) {
-            this.orId = orId;
-        }
-
-        public String getCusName() {
-            return cusName;
-        }
-
-        public void setCusName(String cusName) {
-            this.cusName = cusName;
-        }
-
-        public String getCusAdd() {
-            return cusAdd;
-        }
-
-        public void setCusAdd(String cusAdd) {
-            this.cusAdd = cusAdd;
-        }
-
-        public ArrayList<String> getProductList() {
-            return productList;
-        }
-
-        public void setProductList(ArrayList<String> productList) {
-            this.productList = productList;
-        }
-    }
-
-    public static class OrderList{
-        ArrayList<Order> listOrder;
-
-        public OrderList(ArrayList<Order> listOrder) {
-            this.listOrder = listOrder;
-        }
-
-        public ArrayList<Order> getListOrder() {
-            return listOrder;
-        }
-
-        public void setListOrder(ArrayList<Order> listOrder) {
-            this.listOrder = listOrder;
-        }
     }
 
 
     public static void main(String[] args) {
 
         Scanner sc = new Scanner(System.in);
+
         List<Product> proList = new ArrayList<>();
         List<Order> listOfOrder = new ArrayList<>();
 
         Date date = Calendar.getInstance().getTime();
-        DateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd hh:mm:ss");
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String strDate = dateFormat.format(date);
 
         int temp;
@@ -195,8 +125,8 @@ public class Main {
                     break;
                 case (3):
                     System.out.println("List of products");
-                    for (int i = 0; i < proList.size(); i++) {
-                        System.out.println(proList.get(i));
+                    for (Product product : proList) {
+                        System.out.println(product);
                     }
                     break;
                 case (4):
@@ -209,7 +139,6 @@ public class Main {
                     rand = new Random();
                     int_random = rand.nextInt(upperbound);
                     String cusId = Integer.toString(int_random);
-                    String orDate = strDate;
                     System.out.println("Enter customer name: ");
                     String cusName = sc.nextLine();
                     System.out.println("Enter customer address: ");
@@ -241,12 +170,12 @@ public class Main {
                         System.out.println("Add more product(y/n): ");
                         check = sc.nextLine();
                     }
-                    Order ord = new Order(orId,orDate,cusId,cusName,cusAdd,ordList);
+                    Order ord = new Order(orId,strDate,cusId,cusName,cusAdd,ordList);
                     listOfOrder.add(ord);
                     System.out.println(ord);
                     break;
                 case (5):
-                    System.out.println("Input Order Id to dispay: ");
+                    System.out.println("Input Order Id to display: ");
                     sc = new Scanner(System.in);
                     String idDisplay = sc.nextLine();
                     for (Order i: listOfOrder
@@ -257,9 +186,9 @@ public class Main {
                     }
                     break;
                 case (6):
-                    Collections.sort(proList,Comparator.comparing(Product::getProPrice));
-                    for (int i = 0; i < proList.size(); i++) {
-                        System.out.println(proList.get(i));
+                    proList.sort(Comparator.comparing(Product::getProPrice));
+                    for (Product product : proList) {
+                        System.out.println(product);
                     }
                     break;
                 case (7):
@@ -281,9 +210,9 @@ public class Main {
                     ) {
                         if (i.orId.equals(exId)){
                             try {
-                                File myfile = new File("Order"+i.orId+".txt");
-                                if (myfile.createNewFile()) {
-                                    System.out.println("File created: " + myfile.getName());
+                                File myFile = new File("Order"+i.orId+".txt");
+                                if (myFile.createNewFile()) {
+                                    System.out.println("File created: " + myFile.getName());
                                 } else {
                                     System.out.println("File already exists.");
                                 }
