@@ -6,7 +6,9 @@ import java.util.*;
 import  java.io.File;
 
 
+
 public class Main {
+
     public static class Product{
         String proId;
         String proName;
@@ -62,19 +64,56 @@ public class Main {
         }
 
     }
-
-
-    public static void main(String[] args) {
-
+    static String input;
+    static void validateString(){
         Scanner sc = new Scanner(System.in);
-
+        String temp;
+        boolean isTest = false;
+        while(!isTest){
+            temp = (sc.nextLine());
+            if(temp.isBlank()){
+                System.out.println("Try Again");
+                }else {
+                input = temp;
+                isTest = true;}
+            }
+    }
+    static Double price;
+    static void validatePrice(){
+        Scanner sc = new Scanner(System.in);
+        double temp;
+        boolean isTest = false;
+        while(!isTest){
+            temp = (sc.nextDouble());
+            if(temp<0){
+                System.out.println("Try Again");
+            }else {
+                price = temp;
+                isTest = true;}
+        }
+    }
+    static int intVl;
+    static void validateInt(){
+        Scanner sc = new Scanner(System.in);
+        int temp;
+        boolean isTest = false;
+        while(!isTest){
+            temp = (sc.nextInt());
+            if(temp<0){
+                System.out.println("Try Again");
+            }else {
+                intVl = temp;
+                isTest = true;}
+        }
+    }
+    public static void main(String[] args) {
+        Scanner sc;
         List<Product> proList = new ArrayList<>();
         List<Order> listOfOrder = new ArrayList<>();
 
         Date date = Calendar.getInstance().getTime();
         DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         String strDate = dateFormat.format(date);
-
         int temp;
         while (true){
             System.out.println("Menu Orders Management System");
@@ -87,33 +126,33 @@ public class Main {
             System.out.println("7.Print information of all Orders by a specific customer ID");
             System.out.println("8.Export information of a specific Order ID to text file");
             System.out.println("9.Exit");
-
             System.out.println("Select your choice: ");
-            temp= sc.nextInt();
+            validateInt();
+            temp= intVl;
             switch (temp) {
                 case (1):
-
                     System.out.println("Add a new product");
-                    sc = new Scanner(System.in);
                     Random rand = new Random();
                     int upperbound = 1000;
                     int int_random = rand.nextInt(upperbound);
                     String proId = Integer.toString(int_random);
                     System.out.println("Product Name: ");
-                    String proName = sc.nextLine();
+                    validateString();
+                    String proName = input;
+                    double proPrice;
                     System.out.println("Product Price: ");
-                    double proPrice = sc.nextDouble();
+                    validatePrice();
+                    proPrice=price;
                     Product pro = new Product(proId,proName,proPrice);
                     proList.add(pro);
                     System.out.println(pro);
-
                     break;
                 case (2):
-
                     System.out.println("2");
                     System.out.println("Input Id of product to update");
                     sc = new Scanner(System.in);
-                    String idUpdate = sc.nextLine();
+                    validateString();
+                    String idUpdate = input;
                     for (Product i: proList
                          ) {
                         if (i.proId.equals(idUpdate)){
@@ -121,7 +160,6 @@ public class Main {
                             i.proPrice = sc.nextDouble();
                         }
                     }
-
                     break;
                 case (3):
                     System.out.println("List of products");
@@ -131,7 +169,6 @@ public class Main {
                     break;
                 case (4):
                     ArrayList<String> ordList = new ArrayList<>();
-                    sc = new Scanner(System.in);
                     rand = new Random();
                     upperbound = 1000;
                     int_random = rand.nextInt(upperbound);
@@ -140,21 +177,24 @@ public class Main {
                     int_random = rand.nextInt(upperbound);
                     String cusId = Integer.toString(int_random);
                     System.out.println("Enter customer name: ");
-                    String cusName = sc.nextLine();
+                    validateString();
+                    String cusName = input;
                     System.out.println("Enter customer address: ");
-                    String cusAdd = sc.nextLine();
+                    validateString();
+                    String cusAdd = input;
                     System.out.println("Add product to order by select a product from below list: ");
                     String check="y";
                     while (check.equals("y")) {
                         for (Product i : proList
                         ) {
                             System.out.println(i);
-
                         }
                         System.out.println("Enter product ID:");
-                        String idChoose = sc.nextLine();
+                        validateString();
+                        String idChoose = input;
                         System.out.println("Enter Quantity: ");
-                        String qtt = sc.nextLine();
+                        validateString();
+                        String qtt = input;
                         ordList.add(idChoose);
                         String tempName = null;
                         for (Product i: proList
@@ -166,9 +206,8 @@ public class Main {
                         }
                         ordList.add(tempName);
                         ordList.add(qtt);
-
                         System.out.println("Add more product(y/n): ");
-                        check = sc.nextLine();
+                        check = input; validateString();
                     }
                     Order ord = new Order(orId,strDate,cusId,cusName,cusAdd,ordList);
                     listOfOrder.add(ord);
@@ -176,8 +215,8 @@ public class Main {
                     break;
                 case (5):
                     System.out.println("Input Order Id to display: ");
-                    sc = new Scanner(System.in);
-                    String idDisplay = sc.nextLine();
+                    validateString();
+                    String idDisplay = input;
                     for (Order i: listOfOrder
                          ) {
                         if (i.orId.equals(idDisplay)){
@@ -193,8 +232,8 @@ public class Main {
                     break;
                 case (7):
                     System.out.println("Input Customer Id : ");
-                    sc = new Scanner(System.in);
-                    String cusIdTemp = sc.nextLine();
+                    validateString();
+                    String cusIdTemp = input;
                     for (Order i: listOfOrder
                     ) {
                         if (i.cusId.equals(cusIdTemp)){
@@ -204,8 +243,8 @@ public class Main {
                     break;
                 case (8):
                     System.out.println("Input Order ID to export: ");
-                    sc = new Scanner(System.in);
-                    String exId = sc.nextLine();
+                    validateString();
+                    String exId = input;
                     for (Order i: listOfOrder
                     ) {
                         if (i.orId.equals(exId)){
@@ -221,12 +260,10 @@ public class Main {
                             }
                         }
                     }
-
                     break;
                 case (9):
                     System.out.println("9");
                     System.exit(0);
-
             }
         }
     }
